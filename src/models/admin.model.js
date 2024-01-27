@@ -1,25 +1,18 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
-const staffSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-  },
-  email: {
+const adminSchema = new mongoose.Schema({
+  username: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
     trim: true,
   },
-  joiningDate: {
-    type: Date,
+  password: {
+    type: String,
     required: true,
   },
 })
 
-export const Staff = mongoose.model('Staff', staffSchema)
+const Admin = mongoose.model('Admin', adminSchema)
+
+export default Admin
