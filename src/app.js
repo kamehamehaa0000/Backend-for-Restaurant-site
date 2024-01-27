@@ -4,6 +4,7 @@ import dbConnect from './db/dbConnect.js'
 import { errorMiddleware } from './util/ApiError.js'
 import staffRouter from './routes/staff.route.js'
 import reservationRouter from './routes/reservation.route.js'
+import adminRouter from './routes/admin.route.js'
 const app = express()
 app.use(
   cors({
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 dbConnect()
 app.use('/api/v1/reservation', reservationRouter)
+app.use('api/v1/admin', adminRouter)
 app.use('/api/v1/admin/staff', staffRouter)
 app.use(errorMiddleware)
 export { app }
