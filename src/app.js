@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 dbConnect()
 app.use('/api/v1/reservation', reservationRouter)
-app.use('api/v1/admin', adminRouter)
+app.use('/api/v1/admin', adminRouter)
 app.use('/api/v1/admin/staff', staffRouter)
 app.use(errorMiddleware)
 export { app }
