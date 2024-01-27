@@ -16,9 +16,12 @@ const sendReservation = asyncHandler(async (req, res, next) => {
       date,
       time,
     })
-    return res
-      .status(200)
-      .json({ success: 200, message: 'Reservation done successfully' })
+
+    return res.status(200).json({
+      success: 200,
+      message: 'Reservation done successfully',
+      reservation: reservation,
+    })
   } catch (error) {
     if (error.name === 'ValidationError') {
       const ValidationErrors = Object.values(error.errors).map(
@@ -29,7 +32,6 @@ const sendReservation = asyncHandler(async (req, res, next) => {
     return next(error)
   }
 })
-//extra functionality
 const cancelReservation = asyncHandler(async (req, res, next) => {
   const { email, phone } = req.body
   if (!email) {
@@ -57,4 +59,28 @@ const cancelReservation = asyncHandler(async (req, res, next) => {
       .json({ success: false, message: 'Internal Server Error' })
   }
 })
-export { sendReservation, cancelReservation }
+
+const checkReservationByEmail = asyncHandler(async (req, res, next) => {
+  const { email } = req.params
+
+  try {
+    const reservations = await Reservation.find({ email })
+
+    if (reservations.length === 0) {
+      return res.status(404).json({
+        success: 404,
+        message: 'No reservations found for the provided email',
+      })
+    }
+
+    return res.status(200).json({
+      success: 200,
+      message: 'Reservations found',
+      reservations,
+    })
+  } catch (error) {
+    return next(new ApiError(500, 'Error in checking Reservation'))
+  }
+})
+
+export { sendReservation, cancelReservation, checkReservationByEmail }

@@ -1,1 +1,1 @@
-export const dbName = 'reservation'
+export const dbName = 'restaurant'
